@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 export interface ModalState {
-  switch: boolean
+  isOpenLogin: boolean
   isOpenReport: boolean
 }
 
 const initialState: ModalState = {
-  switch: false,
+  isOpenLogin: false,
   isOpenReport: false,
 }
 
@@ -14,11 +14,11 @@ const modalslice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    changeModalSwitchFalse: (state) => {
-      state.switch = false
+    onClickLoginModalOpenBtn: (state) => {
+      state.isOpenLogin = true
     },
-    changeModalSwitchTrue: (state) => {
-      state.switch = true
+    onClickLoginModalExitBtn: (state) => {
+      state.isOpenLogin = false
     },
     onClickReportModalOpenBtn: (state) => {
       state.isOpenReport = true
@@ -31,8 +31,8 @@ const modalslice = createSlice({
 
 export default modalslice
 export const {
-  changeModalSwitchFalse,
-  changeModalSwitchTrue,
+  onClickLoginModalOpenBtn,
+  onClickLoginModalExitBtn,
   onClickReportModalOpenBtn,
   onClickReportExitBtn,
 } = modalslice.actions

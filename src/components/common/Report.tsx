@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react"
 import { useDispatch } from "react-redux"
-import { onClickReportExitBtn } from "src/redux/reducer/modal"
+import { onClickReportExitBtn } from "src/redux/reducer/modalReducer"
 import styled from "styled-components"
 
 type ReportCategoryListType = {

@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux"
-import { changeModalSwitchTrue } from "src/redux/reducer/modal"
+import { onClickLoginModalExitBtn } from "src/redux/reducer/modalReducer"
 import styled from "styled-components"
 import { Flex } from "../shared/Flex"
 
 export function Loginbar() {
   const dispatch = useDispatch()
   const onClickOpenModal = () => {
-    dispatch(changeModalSwitchTrue())
+    dispatch(onClickLoginModalExitBtn())
   }
 
   return (

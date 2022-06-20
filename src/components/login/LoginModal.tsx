@@ -7,7 +7,7 @@ import GithubLogo from "../../../public/statics/login/github-logo.png"
 import CancelBtn from "../../../public/statics/login/cancel-btn.png"
 import { useDispatch } from "react-redux"
 import { useSelector } from "src/hooks/useSelector"
-import { changeModalSwitchFalse } from "src/redux/reducer/modal"
+import { onClickLoginModalExitBtn } from "src/redux/reducer/modalReducer"
 import SocialLoginBtn from "../common/SocialLoginBtn"
 import envs from "src/config/dotenv"
 
@@ -17,7 +17,8 @@ interface GlobalStyleProps {
 
 export default function LoginModal() {
   const dispatch = useDispatch()
-  const modal = useSelector(({ modal }) => modal.switch)
+  const modal = useSelector(({ modal }) => modal.isOpenLogin)
+
   const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     body {
       overflow: ${(props) => props.modal && "hidden"}
@@ -25,7 +26,7 @@ export default function LoginModal() {
   `
 
   const onClickcloseModal = () => {
-    dispatch(changeModalSwitchFalse())
+    dispatch(onClickLoginModalExitBtn())
   }
 
   React.useEffect(() => {

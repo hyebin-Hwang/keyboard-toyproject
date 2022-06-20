@@ -1,6 +1,6 @@
 import { HYDRATE } from "next-redux-wrapper"
 import { AnyAction, CombinedState, combineReducers } from "@reduxjs/toolkit"
-import modalSlice, { ModalState } from "./modal"
+import modalSlice, { ModalState } from "./modalReducer"
 import authslice, { AuthState } from "./auth"
 
 export interface IState {
