@@ -15,7 +15,7 @@ const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <HeaderCenter variant="xwide">
-        <Flex space="evenly" axis="horizontal" alignment="center">
+        <Flex space="between" axis="horizontal" alignment="center">
           <Navbar />
           <Loginbar />
           <MobileNav />

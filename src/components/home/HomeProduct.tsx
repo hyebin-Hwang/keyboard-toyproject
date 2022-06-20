@@ -23,7 +23,7 @@ const HomeProductContainer = styled.section`
 `
 
 const HomeProductHeader = styled(Flex).attrs({
-  space: "evenly",
+  space: "between",
   axis: "horizontal",
   alignment: "center",
 })`

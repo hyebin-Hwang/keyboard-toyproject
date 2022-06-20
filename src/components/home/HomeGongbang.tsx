@@ -23,7 +23,7 @@ const HomeGongbangContainer = styled.section`
 `
 
 const HomeGongbangHeader = styled(Flex).attrs({
-  space: "evenly",
+  space: "between",
   axis: "horizontal",
   alignment: "center",
 })`

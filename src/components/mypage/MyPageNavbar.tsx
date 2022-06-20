@@ -61,7 +61,7 @@ const MyPageNavbar = () => {
   )
 }
 
-const MyPageNavbarContainer = styled(Flex).attrs({ space: "evenly" })``
+const MyPageNavbarContainer = styled(Flex).attrs({ space: "between" })``
 
 const StyledLink = styled.a`
   display: block;

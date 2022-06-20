@@ -39,7 +39,7 @@ const QuestionNavSelectedHeader = () => {
 }
 
 const QuestionNavSelectedHeaderContainer = styled(Flex).attrs({
-  space: "evenly",
+  space: "between",
   alignment: "center",
 })`
   margin: 40px 15px;

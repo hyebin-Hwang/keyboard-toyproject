@@ -25,7 +25,7 @@ export const Flex = styled.div<FlexProps>`
   display: flex;
   flex-direction: ${(props) => (props.axis === "horizontal" ? "row" : "column")};
   justify-content: ${(props) => {
-    return props.space === "evenly" ? "space-between" : getAlignment(props.distribution)
+    return props.space === "between" ? "space-between" : getAlignment(props.distribution)
   }};
   align-items: ${(props) => getAlignment(props.alignment)};
 
@@ -40,7 +40,7 @@ export const Flex = styled.div<FlexProps>`
       ${(props) => {
         const space = props.space
 
-        return space === "evenly"
+        return space === "between"
           ? {}
           : {
               [props.axis === "horizontal" ? "marginRight" : "marginBottom"]: space,

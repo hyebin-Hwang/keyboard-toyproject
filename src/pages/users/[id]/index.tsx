@@ -13,11 +13,6 @@ const Mypage = () => {
   )
 }
 
-const MypageContainer = styled.div`
-  padding-top: 45px;
-  ${({ theme }) => theme.minMedia.mobile} {
-    padding-top: 75px;
-  }
-`
+const MypageContainer = styled.div``
 
 export default Mypage
