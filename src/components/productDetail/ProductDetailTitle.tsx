@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import handleTimeDiffernce from "src/utils/handleTimeDiffernce"
 import styled from "styled-components"
 import { Flex } from "../shared/Flex"
@@ -29,12 +29,16 @@ export default function ProductDetailTitle({
   viewCount,
   chatCount,
 }: ProductDetailTitleType) {
-  const [isActivedLikeBtn, setIsActivedLikeBtn] = useState(false)
+  const [isActivedLikeBtn, setIsActivedLikeBtn] = useState<boolean>(false)
+  const isLikedProduct = useRef<boolean>(false)
 
   const router = useRouter()
 
   const changedCreatedAt = handleTimeDiffernce(createdAt)
-  const calculatedLikedAt = isActivedLikeBtn ? likedAt + 1 : likedAt
+
+  const falseCalculatedLikedAt = isActivedLikeBtn ? likedAt + 1 : likedAt
+  const trueCalculatedLikedAt = isActivedLikeBtn ? likedAt : likedAt - 1
+  const calculatedLikedAt = isLikedProduct.current ? trueCalculatedLikedAt : falseCalculatedLikedAt
 
   const onClickLikeBtn = () => {
     setIsActivedLikeBtn(!isActivedLikeBtn)
@@ -63,11 +67,21 @@ export default function ProductDetailTitle({
   }
 
   useEffect(() => {
+    // 해당 프로덕트를 좋아요 눌렀는지 체크
+    const { productId } = router.query
+
+    if (Number(productId) === 0) {
+      setIsActivedLikeBtn(true)
+      isLikedProduct.current = true
+    }
+  }, [router.isReady])
+
+  useEffect(() => {
     return () => {
-      if (isActivedLikeBtn) {
+      if (isActivedLikeBtn && isLikedProduct.current !== true) {
         handleLikeCount()
       }
-      if (!isActivedLikeBtn) {
+      if (!isActivedLikeBtn && isLikedProduct.current === true) {
         handleMinusLikeCount()
       }
     }
