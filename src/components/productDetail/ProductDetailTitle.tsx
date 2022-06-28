@@ -1,13 +1,9 @@
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
-import { useSelector } from "src/hooks/useSelector"
-import { onClickReportModalOpenBtn, onClickReportExitBtn } from "src/redux/reducer/modalReducer"
 import handleTimeDiffernce from "src/utils/handleTimeDiffernce"
 import styled from "styled-components"
-import Modal from "../common/Modal"
-import Portal from "../common/Portal"
-import Report from "../common/Report"
+import { Flex } from "../shared/Flex"
+import ProductDetailOption from "./ProductDetailOption"
 import Thumbnails from "./Thumbnails"
 
 type ProductDetailTitleType = {
@@ -34,17 +30,11 @@ export default function ProductDetailTitle({
   chatCount,
 }: ProductDetailTitleType) {
   const [isActivedLikeBtn, setIsActivedLikeBtn] = useState(false)
-  const isOpenReport = useSelector(({ modal }) => modal.isOpenReport)
 
   const router = useRouter()
-  const dispatch = useDispatch()
 
   const changedCreatedAt = handleTimeDiffernce(createdAt)
   const calculatedLikedAt = isActivedLikeBtn ? likedAt + 1 : likedAt
-
-  const clickReportOpenBtn = () => {
-    dispatch(onClickReportModalOpenBtn())
-  }
 
   const onClickLikeBtn = () => {
     setIsActivedLikeBtn(!isActivedLikeBtn)
@@ -89,23 +79,16 @@ export default function ProductDetailTitle({
       <div className="detailTitleTextWrapper">
         <h2>{title}</h2>
         <p className="detailTitleCost">{cost.toLocaleString()}원</p>
-        <div className="detailTitleReportWrapper">
-          <span>💖{calculatedLikedAt} |</span>
-          <span> 🕛{changedCreatedAt} |</span>
-          <span> 수량: {quantity} |</span>
-          <span> 조회: {viewCount} |</span>
-          <span> 채팅: {chatCount}</span>
-          <button className="detailTitleReportBtn" onClick={clickReportOpenBtn}>
-            ❗신고하기
-          </button>
-          {isOpenReport && (
-            <Portal>
-              <Modal onClickExitBtn={onClickReportExitBtn}>
-                <Report />
-              </Modal>
-            </Portal>
-          )}
-        </div>
+        <Flex space="between" className="detailTitleReportWrapper">
+          <div>
+            <span>💖{calculatedLikedAt} |</span>
+            <span> 🕛{changedCreatedAt} |</span>
+            <span> 수량: {quantity} |</span>
+            <span> 조회: {viewCount} |</span>
+            <span> 채팅: {chatCount}</span>
+          </div>
+          <ProductDetailOption />
+        </Flex>
         <div className="detailTitleTextSubWrapper">
           <span className="detailTitleTextCategory">-상품상태:</span>
           <span>{productStatus}</span>
@@ -141,6 +124,9 @@ const StyledDetailTitleContainer = styled.section`
   ${({ theme }) => theme.maxMedia.mobile} {
     display: block;
   }
+  .detailOptionWrapper {
+    position: relative;
+  }
   .detailTitleTextWrapper {
     position: relative;
     height: 100%;
@@ -167,6 +153,11 @@ const StyledDetailTitleContainer = styled.section`
       font-size: 0.9rem;
       position: absolute;
       right: 0;
+    }
+    .detailOptionBtn {
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 10px;
     }
   }
   .detailTitleTextSubWrapper {
