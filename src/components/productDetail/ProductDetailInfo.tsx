@@ -12,9 +12,6 @@ export default function ProductDetailInfo({ detail }: ProductDetailInfoType) {
         <div className="detailProductInfoWrapper">
           <StyledDetailSubInfoWrapper>
             <span className="detailProductDetailTitle">상세정보</span>
-            <span>관심15 </span>
-            <span> 채팅3 </span>
-            <span> 조회241</span>
           </StyledDetailSubInfoWrapper>
           <p className="detailProductInfo">
             {detail}
