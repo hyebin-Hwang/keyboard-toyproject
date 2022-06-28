@@ -1,15 +1,26 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import ProductUploadImage from "src/components/products/new/ProductUploadImage"
+import { useRouter } from "next/router"
+import ProductDetailData from "src/components/productDetail/data/productDetailDummy"
 
 export type UploadImageType = {
   id: number
-  name: string
-  src: string
+  imageName: string
+  imageAddress: string
 }
 
 export default function NewProduct() {
   const [uploadImageList, setUploadImageList] = useState<UploadImageType[]>([])
+
+  const contentRef = useRef<HTMLTextAreaElement>(null)
+  const titleRef = useRef<HTMLInputElement>(null)
+  const costRef = useRef<HTMLInputElement>(null)
+  const quantityRef = useRef<HTMLInputElement>(null)
+  const usedStatusRef = useRef<HTMLInputElement>(null)
+  const newStatusRef = useRef<HTMLInputElement>(null)
+
+  const router = useRouter()
 
   const addUploadImageList = (image: UploadImageType) => {
     setUploadImageList((prev) => [...prev, image])
@@ -24,6 +35,19 @@ export default function NewProduct() {
     event.preventDefault()
     alert("submit!!!")
   }
+
+  useEffect(() => {
+    if (router.isReady) {
+      // const { productId } = router.query로 요청보내기
+      const { title, cost, detail, productStatus, quantity, image } = ProductDetailData
+      titleRef.current!.value = title
+      costRef.current!.value = String(cost)
+      contentRef.current!.textContent = detail
+      quantityRef.current!.value = String(quantity)
+      productStatus === "중고상품" ? usedStatusRef.current?.checked : newStatusRef.current?.checked
+      setUploadImageList(image)
+    }
+  }, [router.isReady])
 
   return (
     <StyledNewProductContainer>
@@ -45,6 +69,7 @@ export default function NewProduct() {
               minLength={2}
               maxLength={30}
               required
+              ref={titleRef}
             />
           </StyledProductTitleInputWrapper>
         </StyledArticleCotnainer>
@@ -53,7 +78,13 @@ export default function NewProduct() {
             <p>가격</p>
           </StyledFlexedLeftItemContainer>
           <StyledProductNumberInputWrapper>
-            <input type="number" placeholder="숫자만 입력해주세요." min={1} required />
+            <input
+              type="number"
+              placeholder="숫자만 입력해주세요."
+              min={1}
+              required
+              ref={costRef}
+            />
             <span>원(배송비포함)</span>
           </StyledProductNumberInputWrapper>
         </StyledArticleCotnainer>
@@ -68,6 +99,7 @@ export default function NewProduct() {
               placeholder="수량을 입력해주세요."
               required
               min={1}
+              ref={quantityRef}
             />
             <span>개</span>
           </StyledProductNumberInputWrapper>
@@ -78,11 +110,17 @@ export default function NewProduct() {
           </StyledFlexedLeftItemContainer>
           <StyledProductStatusWrapper>
             <label>
-              <input type="radio" value="중고상품" name="status" defaultChecked />
+              <input
+                type="radio"
+                value="중고상품"
+                name="status"
+                defaultChecked
+                ref={usedStatusRef}
+              />
               <span>중고상품</span>
             </label>
             <label>
-              <input type="radio" value="새상품" name="status" />
+              <input type="radio" value="새상품" name="status" ref={newStatusRef} />
               <span>새상품</span>
             </label>
           </StyledProductStatusWrapper>
@@ -96,6 +134,7 @@ export default function NewProduct() {
               placeholder="상품 설명을 입력해주세요. (10글자 이상)"
               required
               minLength={10}
+              ref={contentRef}
             />
           </StyledProductDetailWrapper>
         </StyledArticleCotnainer>
