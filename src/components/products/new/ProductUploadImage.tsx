@@ -27,12 +27,12 @@ export default function ProductUploadImage({
     const reader = new FileReader()
     const fileInfo = {
       id: index,
-      name: file.name,
-      src: "",
+      imageName: file.name,
+      imageAddress: "",
     }
     reader.readAsDataURL(file)
     reader.onloadend = () => {
-      fileInfo.src = reader.result as string
+      fileInfo.imageAddress = reader.result as string
       addUploadImageList(fileInfo)
     }
   }
@@ -100,14 +100,14 @@ function UploadImageList({
   index,
   setCurrentImageLength,
 }: UploadImageListType) {
-  const { src, name, id } = image
+  const { imageAddress, imageName, id } = image
   const clickUploadImageDeleteBtn = () => {
     onClickUploadImageDeleteBtn(id)
     setCurrentImageLength((prev) => prev - 1)
   }
   return (
     <StyledImageList>
-      <Image src={src} layout="fill" objectFit="fill" alt={name} />
+      <Image src={imageAddress} layout="fill" objectFit="fill" alt={imageName} />
       <button onClick={clickUploadImageDeleteBtn}>X</button>
       {index === 0 && <span>대표이미지</span>}
     </StyledImageList>
