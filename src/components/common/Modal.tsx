@@ -1,24 +1,20 @@
-import { AnyAction } from "@reduxjs/toolkit"
 import React from "react"
-import { useDispatch } from "react-redux"
 import styled from "styled-components"
 
 type Props = {
   children: React.ReactNode
-  onClickExitBtn: () => AnyAction
+  onClickExitBtn: () => void
 }
 
 export default function Modal({ children, onClickExitBtn }: Props) {
-  const dispatch = useDispatch()
-
   const clickModalSection = (e: React.MouseEvent<HTMLElement>) => {
     if (e.currentTarget === e.target) {
-      dispatch(onClickExitBtn())
+      onClickExitBtn()
     }
   }
 
   const clickExitBtn = () => {
-    dispatch(onClickExitBtn())
+    onClickExitBtn()
   }
 
   return (
@@ -47,6 +43,7 @@ const StyledModalContainer = styled.section`
   justify-content: center;
   z-index: 999;
   .content {
+    border-radius: 9px;
     background: white;
     width: 500px;
     padding: 3rem;
