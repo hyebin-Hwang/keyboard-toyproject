@@ -58,9 +58,7 @@ function ThumbnailImgList({
   }
   return (
     <StyledThumbnailImgList onMouseEnter={mouseEnterThumbnailList} active={id === hoveredImg}>
-      <button>
-        <Image src={imageAddress} alt={imageName} layout="fill" />
-      </button>
+      <Image src={imageAddress} alt={imageName} layout="fill" />
     </StyledThumbnailImgList>
   )
 }
@@ -82,10 +80,6 @@ const StyledThumbnailImgList = styled.li<{ active: boolean }>`
   border: ${({ active }) => active && "2px solid rgb(53, 197, 240) !important"};
   &:hover {
     border: 2px solid rgb(53, 197, 240) !important;
-  }
-  button {
-    width: 100%;
-    height: 100%;
   }
   img {
     border-radius: 5px;
