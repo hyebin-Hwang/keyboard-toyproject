@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import profile from "public/statics/chat/profileExample.png"
 import chatType from "src/types/chatType"
@@ -19,18 +19,34 @@ export default function ChatRoomInfoList({
   const [isOpendMoreInfo, setIsOpendMoreInfo] = useState(false)
   const { title, lastChat, notReadCount, id } = chat
   const modifiedAt = handleTimeDifference(chat.modifiedAt)
-  const handleMoreInfo = (event: React.MouseEvent) => {
-    if (event.type === "mouseleave") {
-      setIsOpendMoreInfo(false)
-      return false
-    }
+  const chatRoomMoreInfoRef = useRef<HTMLDivElement>(null)
+
+  const onClickChatMoreIn = () => {
     setIsOpendMoreInfo(!isOpendMoreInfo)
   }
+
   const clickChatRoomList = () => {
     if (!active) {
       onClickChatRoomList(id)
     }
   }
+
+  const onClickOutSideOnChatMoreInfo = (e: MouseEvent) => {
+    if (!chatRoomMoreInfoRef.current?.contains(e.target as Node)) {
+      setIsOpendMoreInfo(false)
+    }
+  }
+
+  useEffect(() => {
+    if (chatRoomMoreInfoRef.current && isOpendMoreInfo) {
+      document.addEventListener("click", onClickOutSideOnChatMoreInfo)
+    }
+
+    return () => {
+      document.removeEventListener("click", onClickOutSideOnChatMoreInfo)
+    }
+  }, [isOpendMoreInfo])
+
   return (
     <StyledChatRoomList active={active} onClick={clickChatRoomList}>
       <StyledChatRoomImgWrapper>
@@ -41,7 +57,11 @@ export default function ChatRoomInfoList({
         <span className="chatRoomLastChat">{lastChat}</span>
         <span className="chatRoomModifiedAt">{modifiedAt}</span>
       </StyledChatRoomInfoWrapper>
-      <StyledChatRoomMoreDiv onClick={handleMoreInfo} onMouseLeave={handleMoreInfo}>
+      <StyledChatRoomMoreDiv
+        onClick={onClickChatMoreIn}
+        ref={chatRoomMoreInfoRef}
+        isOpendMoreInfo={isOpendMoreInfo}
+      >
         <p>…</p>
         <StyledChatRoomMoreInfo isOpendMoreInfo={isOpendMoreInfo}>
           <li>채팅방나가기</li>
@@ -148,7 +168,7 @@ const StyledChatRoomNotReadingText = styled.div`
   background: rgb(53, 197, 240);
 `
 
-const StyledChatRoomMoreDiv = styled.div`
+const StyledChatRoomMoreDiv = styled.div<{ isOpendMoreInfo: boolean }>`
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -165,4 +185,5 @@ const StyledChatRoomMoreDiv = styled.div`
   &:hover {
     background: #e3e3e3;
   }
+  display: ${({ isOpendMoreInfo }) => (isOpendMoreInfo ? "block" : "none")};
 `
