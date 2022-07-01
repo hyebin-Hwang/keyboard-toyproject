@@ -1,4 +1,4 @@
-import React, { FormEvent, useRef } from "react"
+import React, { useRef } from "react"
 import styled from "styled-components"
 import Image from "next/image"
 import userInfoIcon from "public/statics/chat/userInfoIcon.png"
@@ -37,7 +37,7 @@ export default function ChatRoom({
   const submitChatInputForm = (event: React.FormEvent) => {
     event.preventDefault()
     const isExistedOnlySpace = /^\s*$/.test(inputTextRef.current!.value)
-    if (inputTextRef.current && !isExistedOnlySpace && chat) {
+    if (inputTextRef.current && !isExistedOnlySpace) {
       const text = inputTextRef.current!.value
       onSubmitChatInputForm(text)
       inputTextRef.current.value = ""
@@ -50,7 +50,6 @@ export default function ChatRoom({
     }
     return false
   }
-
 
   return (
     <StyledChatPlaceContainer>
@@ -97,7 +96,7 @@ export default function ChatRoom({
           </StyledCurrentChatBtnWrapper>
         </>
       ) : (
-        <StyledChatOutputContainer>{chat && <Chatting chat={chat} />}</StyledChatOutputContainer>
+        <StyledChatContainer>{chat && <Chatting chat={chat} />}</StyledChatContainer>
       )}
       <StyledChatInputForm onSubmit={submitChatInputForm}>
         <label htmlFor="imageInput">
@@ -234,7 +233,7 @@ const StyledChatInputForm = styled.form`
   }
 `
 
-const StyledChatOutputContainer = styled.section`
+const StyledChatContainer = styled.section`
   padding: 1rem;
   display: flex;
   flex-grow: 1;
